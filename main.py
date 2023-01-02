@@ -8,6 +8,10 @@ class App:
     self.window.title('YT Downloader')
     self.window.resizable(0,0)
 
+    # Variables
+
+    self.entry_text = StringVar()
+
     # Frames
 
     self.frame_header = Label(self.window, bg="brown", height=6)
@@ -25,7 +29,7 @@ class App:
 
     # Entry
 
-    self.entry_link = Entry(self.window, width=30)
+    self.entry_link = Entry(self.window, textvariable=self.entry_text, width=30)
     self.entry_link.config(font=("Arial",10))
     self.entry_link.place(x=90, y=165)
 
@@ -51,11 +55,11 @@ class App:
     
     youtube_object= YouTube(link)
     youtube_object= youtube_object.streams.get_audio_only()
-    # audio = youtube_object.streams.filter(only_audio=True).first()
 
     try:
       out_audio = youtube_object.download(output_path=downloads_path)
       self.saveMP3(out_audio)
+      self.entry_text.set("")
       messagebox.showinfo("Info", "Download completed!")
     except:
       messagebox.showinfo("Info", "There's been an error downloading the audio")
