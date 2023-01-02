@@ -37,6 +37,13 @@ class App:
 
     self.window.mainloop()
 
+  def saveMP3(self, file):
+    import os
+    
+    base, ext = os.path.splitext(file)
+    new_file = base + ".mp3"
+    os.rename(file, new_file)
+
   def download(self, link):
     from pytube import YouTube
     from pathlib import Path
@@ -44,9 +51,11 @@ class App:
     
     youtube_object= YouTube(link)
     youtube_object= youtube_object.streams.get_audio_only()
-    
+    # audio = youtube_object.streams.filter(only_audio=True).first()
+
     try:
-      youtube_object.download(output_path=downloads_path)
+      out_audio = youtube_object.download(output_path=downloads_path)
+      self.saveMP3(out_audio)
       messagebox.showinfo("Info", "Download completed!")
     except:
       messagebox.showinfo("Info", "There's been an error downloading the audio")
