@@ -1,6 +1,5 @@
 
 # YouTube Video Downloader
-=
 
 Este es un proyecto realizado en Python con las librerías:
 
